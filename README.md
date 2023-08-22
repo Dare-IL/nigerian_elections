@@ -39,5 +39,6 @@ The main files are as follows:
 - pipelines/twitter/preprocess_02.py: clean text data and prepare it for analysis
 - pipelines/twitter/sentiment_analysis_03.py: perform sentiment analysis using pretrained model
 - pipelines/twitter/visualisation_04.py: create bar chart for specified number of regions and pie charts of all tweets.
+- requirements.txt: TODO -> add file with necessary packages and versions
 
 
