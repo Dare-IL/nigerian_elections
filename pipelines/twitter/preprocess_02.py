@@ -104,11 +104,13 @@ def preprocess(config):
 
         # get/clean state  
         data['state'] = data['user_loc'].apply(lambda x:str(x).split(',')[0].lower())               
-        data['state'] = data['state'].str.lower()                        
-        data['state'] = data['state'].str.replace('-', '')
-        data['state'] = data['state'].str.replace('_', '')
-        data['state'] = data['state'].str.replace(',', '')
-        data['state'] = data['state'].str.replace(' ','')#.replace('-', '')
+        data['state'] = data['state'].str.lower()  
+
+        # remove unecessary symbols and white spaces
+        for symbol in ['-', '_', ',', ' '] :
+            data['state'] = data['state'].str.replace(symbol, '')
+
+        # rename states  
         data['state'] = data['state'].str.replace('nigeria','')
         data['state'] = data['state'].str.replace('portharcourt','rivers')
         data['state'] = data['state'].str.replace('federalcapitalterritory','abuja')
@@ -124,6 +126,7 @@ def preprocess(config):
 
         data_processed.append(data)
     
+    # save intermediate file
     all_data = pd.concat(data_processed, ignore_index=True)
     all_data.to_csv(f'{config.save_dir}/{config.file_outputs.preprocess.name}_{config.candidate}.csv', index=False)    
 

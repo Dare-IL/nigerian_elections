@@ -4,13 +4,13 @@ import numpy as np
 import pandas as pd
 import datetime
 import sys
-
+from box import Box
 # labels = {0: 'Negative', 1: 'Neutral', 2: 'Positive'}
 
 
 def load_model():
     '''
-    
+    load pretrained model
     '''
     # load model and tokenizer
     roberta = "cardiffnlp/twitter-roberta-base-sentiment"
@@ -22,7 +22,7 @@ def load_model():
 
 def get_sentiment(tweet_cleaned, model, tokenizer, config):
     '''
-    
+    classify tweet as positive, negative, or netural
     '''      
 
     # sentiment analysis
@@ -39,9 +39,10 @@ def get_sentiment(tweet_cleaned, model, tokenizer, config):
 
     return sentiment
 
-def analysis(config):
+def analysis(config: Box):
     '''
-    
+    Read in output of preprocess step and perfrom sentiment analysis of tweet
+    save output as csv
     '''    
     
     try:    

@@ -1,13 +1,17 @@
 import pandas as pd
 import datetime
 import sys
+from box import Box
 # import matplotlib.pyplot as plt
 
 candidate_name_map = {'obi': 'Peter Obi', 'tinubu': 'Bola Tinubu', 'atiku': 'Atiku Abubakar'}
 
-def create_visuals(config, top_n = 5):
+def create_visuals(config: Box, top_n: int = 5) -> None:
     '''
-    
+    Create bar and pie chart using data from sentiment analysis
+    Args:
+        config: project config which specifies intermediate csv file names with relevant data
+        top_n: for barch chart, how many regions (ordered by no of tweets) to show
     '''    
 
 
@@ -23,15 +27,16 @@ def create_visuals(config, top_n = 5):
     month = datetime.datetime.strptime(end, '%Y/%m/%d').strftime("%B")#[:3]   
     name = candidate_name_map[config.candidate ]
 
-    #    
+    # aggregate tweets by state and sentiment 
     data_agg = data.groupby(['state', 'sentiment']).agg({'tweet_proc': 'count'}).unstack()
 
-    #
+    # rename columns
     data_agg.columns = data_agg.columns.get_level_values(1)
 
     data_agg['total_tweets']= data_agg.sum(axis=1)
     data_agg = data_agg.fillna(0)
 
+    # sort by total tweets to that regions with most tweets are at the top
     data_agg = data_agg.sort_values(by='total_tweets', ascending=False)
     pie_data = data_agg.sum()
 
@@ -40,6 +45,7 @@ def create_visuals(config, top_n = 5):
 
     color_list = ['r', 'b', 'g']
     
+    # only plot top_n regions
     fig1 = data_agg[['Negative', 'Neutral', 'Positive']].head(top_n).plot.bar(stacked=True,color=color_list, title=title).get_figure()
     fig1.savefig(f'{config.save_dir}/{config.candidate}_sentiment_by_state_{config.start}_{config.end}.png', bbox_inches='tight')
     fig1.clear()

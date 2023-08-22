@@ -22,7 +22,7 @@ api_key = os.getenv('api_key')
 @click.option('--config', help='configuration file', default='config.yml')
 def main(query: str, end: str, config: str):    
     
-    # if end date specified ensure it is later than start date
+    # TODO: if end date specified ensure it is later than start date
     if end:                
         until = "{}-{}-{}".format(end[:4],end[4:6],end[6:])
     else:
