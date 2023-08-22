@@ -1,0 +1,31 @@
+queries: 
+  general: ['#2023elections']
+  obi: ['Peter obi', '#Obidatti023', '#Obidients']
+  tinubu: ['bola tinubu', '#BAT2023', '#BATSHET2023']
+  atiku: ['Atiku abubakar', '#RecoverNigeria', '#AtikuOkowa2023']
+  limit: 1000
+
+party_keywords:
+  obi_labour: ['obi', 'labour', 'peter']
+  atiku_pdp: ['atiku', 'pdp']
+  tinubu_apc: ['tinubu', 'apc', 'bola', 'ahmed']
+
+file_outputs:
+  preprocess:  
+    name: preprocessed_tweets_all   
+  analysis:
+    name: tweets_sentiments
+
+analysis:
+  labels:
+    0: Negative
+    1: Neutral
+    2: Positive
+  
+
+pipeline_steps:
+  extract : True # get data from api 
+  preprocess: True # clean tweet, get state of origin and candidate 
+  analysis: True # perfrom sentiment analysis
+  output: True # create pie and bar charts
+
